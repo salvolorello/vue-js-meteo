@@ -10,7 +10,7 @@
           solo
           v-model="model"
           :items="items"
-          :loading="isLoading"
+          :loading="loadingAutocomplete"
           :search-input.sync="search"
           color="white"
           hide-no-data
@@ -23,28 +23,44 @@
         ></v-autocomplete>
       </v-card-text>
     </div>
+    <div class="carosel_day">
+      <div v-for="day in meteoDay">
+        <MeteoCardMini :meteoDay="day" />
+      </div>
+    </div>
+    <div class="all_day_container">
+      <MeteoCardDay :meteo-now="meteoNow" />
+    </div>
   </div>
 </template>
 
 <script>
 import HeaderPage from "@/components/HeaderPage/HeaderPage.vue";
 import MeteoCard from "@/components/MeteoCard/MeteoCard.vue";
+import MeteoCardMini from "@/components/MeteoCard/MeteoCardMini.vue";
+import MeteoCardDay from "@/components/MeteoCard/MeteoCardDay.vue";
 export default {
   name: "Home",
   data() {
     return {
-      isLoading: false,
-      items: [],
       model: null,
       search: null,
-      tab: null,
-      dataMapped: [],
+      // tab: null,
     };
   },
 
   computed: {
     meteoNow() {
       return this.$store.state.homeStore.nowMeteo;
+    },
+    loadingAutocomplete() {
+      return this.$store.state.homeStore.loadingAutocomplete;
+    },
+    items() {
+      return this.$store.state.homeStore.itemsForAutocmplete;
+    },
+    meteoDay() {
+      return this.$store.state.homeStore.dayMeteo;
     },
   },
 
@@ -54,7 +70,6 @@ export default {
         const latitude = val.split(" , ")[1];
         const longitude = val.split(" , ")[2];
         const name = val.split(" , ")[0];
-        console.log(longitude);
         this.$store.dispatch("getMeteo", { latitude, longitude, name });
       }
     },
@@ -63,33 +78,15 @@ export default {
       // if (this.items.length > 0) return;
       if (this.model != null) return;
       if (val === "" || val === null || val.length < 3) return;
-
-      this.isLoading = true;
-      // Lazily load input items
-      fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${val}&count=10&language=it&format=json`
-      )
-        .then((res) => res.clone().json())
-        .then((res) => {
-          this.items = res.results.map(
-            (item) =>
-              item.name +
-              " , " +
-              item.latitude.toFixed(2) +
-              " , " +
-              item.longitude.toFixed(2)
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => (this.isLoading = false));
+      this.$store.dispatch("getCityCord", val);
     },
   },
 
   components: {
     HeaderPage,
     MeteoCard,
+    MeteoCardMini,
+    MeteoCardDay,
   },
   methods: {
     onInputChange() {
@@ -123,5 +120,16 @@ export default {
 }
 .search_city {
   width: 90%;
+  height: 5vw;
+}
+.carosel_day {
+  margin-top: 0.5vw;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

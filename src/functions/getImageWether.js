@@ -15,9 +15,9 @@ export const getImagewether = (nowMeteo) => {
 
   if (+nowMeteo.cloudcover > 40) {
     nuvoloso = true;
-    if (nowMeteo.precipitation_probability < 50) {
-      rain = true;
-    }
+  }
+  if (nowMeteo.precipitation_probability > 40) {
+    rain = true;
   }
 
   if (nuvoloso && rain) {
