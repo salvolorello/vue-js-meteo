@@ -53,6 +53,7 @@ export const homeStore = {
           cloudcover,
           weathercode,
           relativehumidity_2m,
+          temperature_2m
         } = res.data.hourly;
         const { current_weather } = res.data;
         //edit data for meteo now
@@ -73,13 +74,13 @@ export const homeStore = {
           text_meteo: "",
         };
         const fullMeteo = {
-          day1: [],
-          day2: [],
-          day3: [],
-          day4: [],
-          day5: [],
-          day6: [],
-          day7: [],
+          day1: { data: [], avg: {} },
+          day2: { data: [], avg: {} },
+          day3: { data: [], avg: {} },
+          day4: { data: [], avg: {} },
+          day5: { data: [], avg: {} },
+          day6: { data: [], avg: {} },
+          day7: { data: [], avg: {} },
         };
 
         function pushFullMeteo(array, count, img, text) {
@@ -93,6 +94,7 @@ export const homeStore = {
             img: img,
             text_meteo: text,
             dayOfWeek: dayString,
+            temperature_2m: temperature_2m[count]
           });
         }
 
@@ -104,25 +106,25 @@ export const homeStore = {
           });
 
           if (index <= 23) {
-            pushFullMeteo(fullMeteo.day1, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day1.data, index, imgSrc, text_meteo);
           }
           if (index > 23 && index <= 47) {
-            pushFullMeteo(fullMeteo.day2, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day2.data, index, imgSrc, text_meteo);
           }
           if (index > 47 && index <= 71) {
-            pushFullMeteo(fullMeteo.day3, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day3.data, index, imgSrc, text_meteo);
           }
           if (index > 71 && index <= 95) {
-            pushFullMeteo(fullMeteo.day4, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day4.data, index, imgSrc, text_meteo);
           }
           if (index > 95 && index <= 119) {
-            pushFullMeteo(fullMeteo.day5, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day5.data, index, imgSrc, text_meteo);
           }
           if (index > 119 && index <= 143) {
-            pushFullMeteo(fullMeteo.day6, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day6.data, index, imgSrc, text_meteo);
           }
           if (index > 143 && index <= 167) {
-            pushFullMeteo(fullMeteo.day7, index, imgSrc, text_meteo);
+            pushFullMeteo(fullMeteo.day7.data, index, imgSrc, text_meteo);
           }
 
           if (time[index].includes(todayDate)) {
@@ -132,6 +134,7 @@ export const homeStore = {
               cloudcover: cloudcover[index],
               weathercode: weathercode[index],
               relativehumidity_2m: relativehumidity_2m[index],
+              temperature_2m: temperature_2m[index],
               img: imgSrc,
               text_meteo: text_meteo,
             });
@@ -147,10 +150,31 @@ export const homeStore = {
             nowMeteo.text_meteo = text_meteo;
           }
         }
-        console.log(fullMeteo);
-        //  get data for only this, day
 
-        commit("GET_METEO_SUCCESS", { res: res.data, nowMeteo, dayMeteo });
+         //avg of array props
+        Object.keys(fullMeteo).forEach(function(key,index) {
+         const avg_precipitation_probability = Math.round( fullMeteo[key].data.reduce((total, next) => total + next.precipitation_probability, 0) / fullMeteo[key].data.length)
+         const avg_cloudcover =  Math.round(fullMeteo[key].data.reduce((total, next) => total + next.cloudcover, 0) / fullMeteo[key].data.length)
+         const avg_relativehumidity_2m =  Math.round(fullMeteo[key].data.reduce((total, next) => total + next.relativehumidity_2m, 0) / fullMeteo[key].data.length)
+         const avg_temperature_2m =  Math.round(fullMeteo[key].data.reduce((total, next) => total + next.temperature_2m, 0) / fullMeteo[key].data.length)
+         const min_temp =Math.round( Math.min(...fullMeteo[key].data.map(temp=> temp.temperature_2m)))
+         const max_temp =Math.round( Math.max(...fullMeteo[key].data.map(temp=> temp.temperature_2m)))
+         const shortDate = moment(new Date(fullMeteo[key].data[0].time)).format("MMM DD");
+
+         const { imgSrc, text_meteo } = getImagewether({
+          precipitation_probability: avg_precipitation_probability,
+          cloudcover: avg_cloudcover,
+        });
+
+         fullMeteo[key].avg={
+          avg_precipitation_probability,avg_cloudcover,avg_relativehumidity_2m,avg_temperature_2m,min_temp,max_temp,imgSrc,text_meteo,shortDate
+         }
+        })
+
+        console.log(fullMeteo)
+
+
+        commit("GET_METEO_SUCCESS", { res: fullMeteo, nowMeteo, dayMeteo });
       } catch (error) {}
     },
 

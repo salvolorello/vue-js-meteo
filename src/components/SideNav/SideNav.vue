@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <v-card style="height: 100vh">
-      <v-navigation-drawer permanent expand-on-hover>
+      <v-navigation-drawer permanent expand-on-hover dark>
         <v-list>
           <v-list-item class="px-2">
             <v-list-item-avatar>

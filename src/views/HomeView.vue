@@ -29,7 +29,10 @@
       </div>
     </div>
     <div class="all_day_container">
-      <MeteoCardDay :meteo-now="meteoNow" />
+      <div v-for="day in meteoFull">
+        <MeteoCardDay :meteo-day="day" />
+      </div>
+      
     </div>
   </div>
 </template>
@@ -62,6 +65,10 @@ export default {
     meteoDay() {
       return this.$store.state.homeStore.dayMeteo;
     },
+    meteoFull() {
+      return this.$store.state.homeStore.meteo;
+    },
+    
   },
 
   watch: {
@@ -131,5 +138,11 @@ export default {
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+.all_day_container{
+  overflow-y: scroll;
+  height: 18vw;
+  /* background-color: aqua; */
 }
 </style>

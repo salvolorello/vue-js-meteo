@@ -2,20 +2,22 @@
   <div class="meteo_card_container">
     <div class="div_1">
       <div class="date global_set">
-        <h1>Saturday</h1>
-        <p>22 Mag</p>
+        <h1>{{meteoDay.data[0].dayOfWeek}}</h1>
+        <p>{{ meteoDay.avg.shortDate }}</p>
       </div>
       <div class="card_img global_set">
-        <img :src="meteoNow.img" />
+        <img :src="meteoDay.avg.imgSrc" />
         <div class="_temp global_set">
-          <h2>{{ Math.round(meteoNow.temperature) }}</h2>
-          <h2>{{ Math.round(meteoNow.temperature) }}</h2>
+          <p>{{meteoDay.avg.min_temp }}</p>
+          <p><strong>{{meteoDay.avg.max_temp}}</strong></p>
         </div>
       </div>
 
       <div class="_PUV global_set">
-        <p>Precipitazioni : {{ meteoNow.precipitation_probability }} %</p>
-        <p>Vento : {{ meteoNow.windSpeed }}km/h</p>
+        <p>Precipitazioni : {{ meteoDay.avg.avg_precipitation_probability }} %</p>
+        <p>Umidità : {{ meteoDay.avg_temperature_2m }}km/h</p>
+        <p>Vento : {{ meteoDay.avg.avg_relativehumidity_2m }}km/h</p>
+
       </div>
     </div>
   </div>
@@ -29,7 +31,7 @@ export default {
     };
   },
   props: {
-    meteoNow: {},
+    meteoDay: {},
   },
 };
 </script>
@@ -45,6 +47,10 @@ export default {
   max-height: 10vw;
   height: 10vw;
   /* background-color: blue; */
+}
+.meteo_card_container:hover{
+  cursor: pointer;
+  background-color: bisque;
 }
 
 .div_1 {
@@ -74,6 +80,7 @@ export default {
 }
 .date p {
   font-size: 2vw;
+  margin-top: -1vw;
 }
 ._temp {
   /* background-color: red; */
@@ -83,8 +90,9 @@ export default {
   align-items: center;
   padding: 0%;
 }
-._temp h2 {
+._temp p {
   font-size: 3vw;
+  margin-bottom: -0.8vw;
 }
 
 .card_img {
@@ -109,5 +117,6 @@ export default {
 }
 ._PUV p {
   font-size: 1.3vw;
+  margin-bottom: -0.2vw;
 }
 </style>
