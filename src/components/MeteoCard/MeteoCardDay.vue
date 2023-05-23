@@ -33,6 +33,10 @@ export default {
   props: {
     meteoDay: {},
   },
+  computed: {
+    meteoNow() {
+      return this.$store.state.homeStore.darkMode;
+    },}
 };
 </script>
 
@@ -50,7 +54,7 @@ export default {
 }
 .meteo_card_container:hover{
   cursor: pointer;
-  background-color: bisque;
+  background-color: gray;
 }
 
 .div_1 {

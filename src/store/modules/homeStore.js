@@ -1,7 +1,7 @@
 import { getImagewether } from "@/functions/getImageWether";
 import axios from "axios";
 import moment from "moment";
-
+moment.locale('it')
 export const homeStore = {
   state: {
     meteo: [],
@@ -10,8 +10,14 @@ export const homeStore = {
     loadingAutocomplete: false,
     loadingMeteoCard: false,
     dayMeteo: [],
+    darkMode: false,
   },
-  getters: {},
+  getters: {
+    getDarkMode(state) {
+      console.log(state.darkMode)
+      return state.darkMode;
+    },
+  },
   mutations: {
     // GET THE CORDINATE OF SELECTED ITEM FROM AUTOCMPLETATE SEARC
     GET_CITY_CORD_START(state) {
@@ -38,10 +44,17 @@ export const homeStore = {
       state.dayMeteo = payload.dayMeteo;
       state.loadingMeteoCard = false;
     },
+
+    SET_DARK_MODE(state) {
+      state.darkMode = !state.darkMode;
+      console.log(state.darkMode)
+    },
   },
   actions: {
+    setDarkMode({ commit }) {
+      commit("SET_DARK_MODE");
+    },
     //  fetch meteo
-
     async getMeteo({ commit }, payload) {
       try {
         const res = await axios.get(
@@ -53,7 +66,7 @@ export const homeStore = {
           cloudcover,
           weathercode,
           relativehumidity_2m,
-          temperature_2m
+          temperature_2m,
         } = res.data.hourly;
         const { current_weather } = res.data;
         //edit data for meteo now
@@ -94,7 +107,7 @@ export const homeStore = {
             img: img,
             text_meteo: text,
             dayOfWeek: dayString,
-            temperature_2m: temperature_2m[count]
+            temperature_2m: temperature_2m[count],
           });
         }
 
@@ -140,7 +153,8 @@ export const homeStore = {
             });
           }
           if (time[index] === today) {
-            nowMeteo.precipitation_probability = precipitation_probability[index];
+            nowMeteo.precipitation_probability =
+              precipitation_probability[index];
             nowMeteo.weathercode = weathercode[index];
             nowMeteo.cloudcover = cloudcover[index];
             nowMeteo.relativehumidity_2m = relativehumidity_2m[index];
@@ -151,28 +165,61 @@ export const homeStore = {
           }
         }
 
-         //avg of array props
-        Object.keys(fullMeteo).forEach(function(key,index) {
-         const avg_precipitation_probability = Math.round( fullMeteo[key].data.reduce((total, next) => total + next.precipitation_probability, 0) / fullMeteo[key].data.length)
-         const avg_cloudcover =  Math.round(fullMeteo[key].data.reduce((total, next) => total + next.cloudcover, 0) / fullMeteo[key].data.length)
-         const avg_relativehumidity_2m =  Math.round(fullMeteo[key].data.reduce((total, next) => total + next.relativehumidity_2m, 0) / fullMeteo[key].data.length)
-         const avg_temperature_2m =  Math.round(fullMeteo[key].data.reduce((total, next) => total + next.temperature_2m, 0) / fullMeteo[key].data.length)
-         const min_temp =Math.round( Math.min(...fullMeteo[key].data.map(temp=> temp.temperature_2m)))
-         const max_temp =Math.round( Math.max(...fullMeteo[key].data.map(temp=> temp.temperature_2m)))
-         const shortDate = moment(new Date(fullMeteo[key].data[0].time)).format("MMM DD");
+        //avg of array props
+        Object.keys(fullMeteo).forEach(function (key, index) {
+          const avg_precipitation_probability = Math.round(
+            fullMeteo[key].data.reduce(
+              (total, next) => total + next.precipitation_probability,
+              0
+            ) / fullMeteo[key].data.length
+          );
+          const avg_cloudcover = Math.round(
+            fullMeteo[key].data.reduce(
+              (total, next) => total + next.cloudcover,
+              0
+            ) / fullMeteo[key].data.length
+          );
+          const avg_relativehumidity_2m = Math.round(
+            fullMeteo[key].data.reduce(
+              (total, next) => total + next.relativehumidity_2m,
+              0
+            ) / fullMeteo[key].data.length
+          );
+          const avg_temperature_2m = Math.round(
+            fullMeteo[key].data.reduce(
+              (total, next) => total + next.temperature_2m,
+              0
+            ) / fullMeteo[key].data.length
+          );
+          const min_temp = Math.round(
+            Math.min(...fullMeteo[key].data.map((temp) => temp.temperature_2m))
+          );
+          const max_temp = Math.round(
+            Math.max(...fullMeteo[key].data.map((temp) => temp.temperature_2m))
+          );
+          const shortDate = moment(
+            new Date(fullMeteo[key].data[0].time)
+          ).format("MMM DD");
 
-         const { imgSrc, text_meteo } = getImagewether({
-          precipitation_probability: avg_precipitation_probability,
-          cloudcover: avg_cloudcover,
+          const { imgSrc, text_meteo } = getImagewether({
+            precipitation_probability: avg_precipitation_probability,
+            cloudcover: avg_cloudcover,
+          });
+
+          fullMeteo[key].avg = {
+            avg_precipitation_probability,
+            avg_cloudcover,
+            avg_relativehumidity_2m,
+            avg_temperature_2m,
+            min_temp,
+            max_temp,
+            imgSrc,
+            text_meteo,
+            shortDate,
+          };
         });
 
-         fullMeteo[key].avg={
-          avg_precipitation_probability,avg_cloudcover,avg_relativehumidity_2m,avg_temperature_2m,min_temp,max_temp,imgSrc,text_meteo,shortDate
-         }
-        })
-
-        console.log(fullMeteo)
-
+        console.log(fullMeteo);
 
         commit("GET_METEO_SUCCESS", { res: fullMeteo, nowMeteo, dayMeteo });
       } catch (error) {}

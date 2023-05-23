@@ -1,14 +1,14 @@
 <template>
   <div class="about">
-    <HeaderPage title="Counter Page" />
+    <HeaderPage title="About Page" />
 
-    <h2>current Value</h2>
-    <h1>{{ count }}</h1>
-
+    <!-- <h2>current Value</h2> -->
+    <!-- <h1>{{ count }}</h1> -->
+<!-- 
     <div class="btn_container"></div>
     <BtnCustom text="+" :actions="incrementa" />
-    <BtnCustom text="-" :actions="decrementa" />
-  </div>
+    <BtnCustom text="-" :actions="decrementa" /> -->
+  </div> 
 </template>
 
 <script>

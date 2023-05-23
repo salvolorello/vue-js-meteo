@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <SideNav />
   </v-app>
 </template>
@@ -18,3 +18,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.app{
+  /* background-color: red; */
+height: 100%;
+}
+</style>
