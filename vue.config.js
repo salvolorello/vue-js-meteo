@@ -5,3 +5,7 @@ module.exports = defineConfig({
   ],
   publicPath: '/vue-js-meteo/'
 })
+
+module.exports = {
+  publicPath: '/vue-js-meteo/'
+}
