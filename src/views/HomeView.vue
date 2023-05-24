@@ -31,7 +31,8 @@
 
     <div class="all_day_container">
       <div v-for="day in meteoFull">
-        <MeteoCardDay :meteo-day="day" />
+        <!-- <MeteoCardDay :meteo-day="day" /> -->
+        <DialogMeteoDay :meteoDay="day" />
       </div>
 
     </div>
@@ -43,7 +44,7 @@ import HeaderPage from "@/components/HeaderPage/HeaderPage.vue";
 import MeteoCard from "@/components/MeteoCard/MeteoCard.vue";
 import MeteoCardMini from "@/components/MeteoCard/MeteoCardMini.vue";
 import MeteoCardDay from "@/components/MeteoCard/MeteoCardDay.vue";
-
+import DialogMeteoDay from "@/components/DialogMeteoDay/DialogMeteoDay.vue";
 
 
 
@@ -108,6 +109,7 @@ export default {
     MeteoCard,
     MeteoCardMini,
     MeteoCardDay,
+    DialogMeteoDay,
 
   },
  

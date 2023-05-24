@@ -1,15 +1,16 @@
-<template>
-  <div class="meteo_card_container">
+<template v-slot:activator="{on,attrs}" >
+  <div class="meteo_card_container"  v-bind="attrs"
+          v-on="on">
     <div class="div_1">
       <div class="date global_set">
-        <h1>{{meteoDay.data[0].dayOfWeek}}</h1>
+        <h1>{{ meteoDay.data[0].dayOfWeek }}</h1>
         <p>{{ meteoDay.avg.shortDate }}</p>
       </div>
       <div class="card_img global_set">
-        <img :src="meteoDay.avg.imgSrc" />
+        <img :src="meteoDay.avg.imgSrc"  />
         <div class="_temp global_set">
-          <p>{{meteoDay.avg.min_temp }}</p>
-          <p><strong>{{meteoDay.avg.max_temp}}</strong></p>
+          <p>{{ meteoDay.avg.min_temp }}</p>
+          <p><strong>{{ meteoDay.avg.max_temp }}</strong></p>
         </div>
       </div>
 
@@ -32,11 +33,14 @@ export default {
   },
   props: {
     meteoDay: {},
+    on:undefined,
+    attrs:undefined,
   },
   computed: {
     meteoNow() {
       return this.$store.state.homeStore.darkMode;
-    },}
+    },
+  }
 };
 </script>
 
@@ -52,7 +56,8 @@ export default {
   height: 10vw;
   /* background-color: blue; */
 }
-.meteo_card_container:hover{
+
+.meteo_card_container:hover {
   cursor: pointer;
   background-color: gray;
 }
@@ -73,19 +78,23 @@ export default {
   padding: 1%;
   height: 100%;
 }
+
 .date {
   display: flex;
   flex-direction: column;
   /* background-color: antiquewhite; */
   width: 30vw;
 }
+
 .date h1 {
   font-size: 4vw;
 }
+
 .date p {
   font-size: 2vw;
   margin-top: -1vw;
 }
+
 ._temp {
   /* background-color: red; */
   display: flex;
@@ -94,6 +103,7 @@ export default {
   align-items: center;
   padding: 0%;
 }
+
 ._temp p {
   font-size: 3vw;
   margin-bottom: -0.8vw;
@@ -106,6 +116,7 @@ export default {
   width: 20vw;
   justify-content: center;
 }
+
 .card_img img {
   height: 11vw;
   /* background-color: antiquewhite; */
@@ -119,8 +130,8 @@ export default {
   align-items: flex-end;
   justify-content: center;
 }
+
 ._PUV p {
   font-size: 1.3vw;
   margin-bottom: -0.2vw;
-}
-</style>
+}</style>
