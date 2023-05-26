@@ -12,7 +12,7 @@
       <MeteoCard :meteo-now="meteoNow" />
     </div>
     <div class="search_city">
-      <v-card-text>
+      <v-card-text class="pa-0" >
         <v-autocomplete solo v-model="model" :items="items" :loading="loadingAutocomplete" :search-input.sync="search"
           color="white" hide-no-data hide-selected item-text="Description" item-value="id"
           label="Search your prefered location" placeholder="Start typing to Search"
@@ -135,15 +135,17 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 1%;
+  width: 89%;
   /* p: 1%; */
   /* background-color: aqua; */
-  height: 10%;
+  /* height: 10%; */
 }
 .switch {
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
-  width: 85vw;
+  width: 90%;
   margin-top: -4.5%;
 }
 
@@ -152,6 +154,7 @@ export default {
   align-items: center;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   /* background-color: green; */
 }
 
@@ -160,6 +163,7 @@ export default {
   flex-direction: row;
   /* background-color: bisque; */
   height: 20%;
+  width: 80%;
 }
 
 .search_city {
@@ -171,11 +175,12 @@ export default {
 .carosel_day {
   margin-top: 0%;
   width: 84%;
+  height: auto;
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
   /* background-color: brown; */
-  height: 19%;
+  /* height: 19%; */
 }
 
 ::-webkit-scrollbar {
@@ -184,7 +189,8 @@ export default {
 
 .all_day_container {
   overflow-y: scroll;
-  height: 37vh;
+  height: 45%;
+  width: 80%;
   /* background-color: aqua; */
 }
 
@@ -193,5 +199,15 @@ export default {
   background-color: black;
   color: white;
 
+}
+
+
+@media (max-width:850px) {
+  ._head{
+    height: 13%;
+  }
+  .home_container{
+    margin-left: -10%;
+  }
 }
 </style>

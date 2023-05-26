@@ -6,22 +6,11 @@ set -e
 # build
 npm run build
 
-# navigate into the build output directory
-cd dist
+git add dist -f
 
-# if you are deploying to a custom domain
-# echo 'www.example.com' > CNAME
+git commit -m "adding dist"
 
-git init
-git add -f .
-git commit -m 'deploy'
-
-# if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
-
-# if you are deploying to https://<USERNAME>.github.io/<REPO>
-# git push -f git@github.com:<USERNAME>/<REPO>.git main:gh-pages
-git push -f git@github.com:salvolorello/vue-js-meteo.git master:gh-pages
+git subtree push --prefix dist origin gh-pages
 
 cd -
 

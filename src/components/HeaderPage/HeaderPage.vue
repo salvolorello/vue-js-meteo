@@ -19,4 +19,9 @@ export default {
 </script>
 <style scoped>
 
+@media (max-width: 768px) {
+h1{
+  font-size: 100%;
+}}
+
 </style>

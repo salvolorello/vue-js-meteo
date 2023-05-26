@@ -1,6 +1,7 @@
 <template>
   <div class="body">
-    <v-card style="height: 100%">
+    <v-app-bar-nav-icon class="mobile_menu" ></v-app-bar-nav-icon >
+    <v-card style="height: 100%" class="desktop_menu">
       <v-navigation-drawer permanent expand-on-hover dark>
         <v-list>
           <v-list-item class="px-2">
@@ -60,5 +61,17 @@ export default {
 .body {
   display: flex;
   flex-direction: row;
+}
+.mobile_menu{
+  display: none;
+}
+
+@media (max-width: 850px) {
+  .mobile_menu{
+  display: flex;
+}
+.desktop_menu{
+  display: none;
+}
 }
 </style>

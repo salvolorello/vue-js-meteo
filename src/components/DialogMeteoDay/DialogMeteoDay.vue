@@ -12,7 +12,7 @@
                     </v-btn>
                 </v-toolbar>
 
-                <MeteoCardDialog v-for="hour in meteoDay.data" :meteoNow="hour" />
+                <MeteoCardDialog v-for="hour in meteoDay.data" :meteoNow="hour" :key="hour.time"/>
 
             </v-card>
         </v-dialog>

@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <HeaderPage title="About Page" />
+    <HeaderPage title="About Deploy" />
 
     <!-- <h2>current Value</h2> -->
     <!-- <h1>{{ count }}</h1> -->

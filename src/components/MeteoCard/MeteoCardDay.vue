@@ -1,5 +1,5 @@
 <template v-slot:activator="{on,attrs}" >
-  <div class="meteo_card_container"  v-bind="attrs"
+  <div class="mx-auto meteo_card_container "  v-bind="attrs"
           v-on="on">
     <div class="div_1">
       <div class="date global_set">
@@ -50,10 +50,8 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 80vw;
-  max-width: 90vw;
-  max-height: 10vw;
-  height: 10vw;
+  width: 100%;
+  height: 4%;
   /* background-color: blue; */
 }
 
@@ -67,9 +65,10 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  max-height: 10vw;
-  width: 80vw;
-  height: 10vw;
+  /* max-height: 10vw; */
+  width: 100%;
+  height: 10%;
+  /* height: 10%; */
 }
 
 .global_set {
@@ -83,44 +82,45 @@ export default {
   display: flex;
   flex-direction: column;
   /* background-color: antiquewhite; */
-  width: 30vw;
+  width: 80%;
 }
 
 .date h1 {
-  font-size: 4vw;
+  font-size: 4em;
 }
 
 .date p {
-  font-size: 2vw;
-  margin-top: -1vw;
+  font-size: 2em;
+  margin-top: -0.5em;
 }
 
 ._temp {
   /* background-color: red; */
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: 30%;
   align-items: center;
   padding: 0%;
 }
 
 ._temp p {
-  font-size: 3vw;
-  margin-bottom: -0.8vw;
+  font-size: 3rem;
+  margin-bottom: -0.5rem;
 }
 
 .card_img {
   /* background-color: green; */
   flex-direction: row;
   align-items: center;
-  width: 20vw;
+  height: auto;
+  width: 100%;
   justify-content: center;
 }
 
 .card_img img {
-  height: 11vw;
+  width: 9rem;
   /* background-color: antiquewhite; */
-  margin-top: 3vw;
+  margin-top: 11%;
 }
 
 ._PUV {
@@ -134,4 +134,42 @@ export default {
 ._PUV p {
   font-size: 1.3vw;
   margin-bottom: -0.2vw;
-}</style>
+}
+
+@media (max-width: 768px) {
+  ._PUV{
+    display: none;
+  }
+
+  .date{
+    font-size: x-small;
+
+    
+  }
+  .date h1{
+    font-size: 1.3rem;
+  }
+  .date p{
+    font-size: 1rem;
+  }
+  .card_img img{
+    width: 6rem;
+  }
+  ._temp p{
+    font-size: 1rem;
+  }
+  ._temp{
+    margin-bottom: 14%;
+  }
+
+ 
+
+  .div_1{
+    width: 100%;
+  }
+}
+
+
+</style>
+
+

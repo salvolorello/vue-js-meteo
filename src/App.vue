@@ -1,6 +1,7 @@
-<template>
+<template class="body">
   <v-app class="app">
     <SideNav />
+   
   </v-app>
 </template>
 
@@ -22,5 +23,8 @@ export default {
 .app{
   /* background-color: red; */
 height: 100%;
+}
+.body{
+  height: 100vh;
 }
 </style>
